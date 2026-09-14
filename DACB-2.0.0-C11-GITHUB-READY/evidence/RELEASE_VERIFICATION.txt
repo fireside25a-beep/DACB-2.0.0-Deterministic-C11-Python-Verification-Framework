@@ -1,0 +1,31 @@
+DACB 2.0.0 RELEASE VERIFICATION
+================================
+UTC=2026-09-04T01:34:15Z
+gcc (Debian 14.2.0-19) 14.2.0
+clang version 17.0.0 (https://github.com/swiftlang/llvm-project.git 10999b6d034fe318f3d56c83bddb6572593a8bb0)
+Python 3.13.5
+
+[1/14] build gcc
+[2/14] build clang
+[3/14] C tests gcc/clang
+DACB_C_TESTS_PASS
+DACB_C_TESTS_PASS
+[4/14] independent Python twin tests
+DACB_PYTHON_TWIN_TESTS_PASS
+[5/14] canonical report byte identity
+1d2ffc1bd5703d8514a62226e42bc007798f454c9c935d974071d6add57d7679  /tmp/tmp.MD19CtQIdu/gcc.report
+[6/14] 5000-step CLI byte identity
+steps=5000 seed=1 last=4125282121 affine=4125282121 matrix=4125282121 reverse=1 sum_mod=585303980 weighted_mod=554861868
+[7/14] bounded exhaustive cross-language identity bits 2..11
+bits=2-11 cases=5596492 fnv64=bb145fc9fd64af85 modsum=701664029
+[8/14] extended C exhaustive bits 2..12
+bits=2-12 cases=22377804 fnv64=d6fcc0f67a842585 modsum=341034241
+[9/14] long-chain stress
+steps=1000000 seed=1 last=366300225 affine=366300225 matrix=366300225 reverse=1 sum_mod=346639628 weighted_mod=152047219
+[10/14] sanitizer build
+DACB_SAFETY_TESTS_PASS
+[11/14] gcc analyzer
+[12/14] invalid-input rejection
+[13/14] repeatability
+[14/14] source-tree hygiene
+DACB_RELEASE_VERIFICATION_PASS
