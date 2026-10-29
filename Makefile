@@ -19,9 +19,10 @@ $(BIN): canonical_c11/src/dacb.c canonical_c11/src/main.c canonical_c11/include/
 $(TESTBIN): canonical_c11/src/dacb.c tests/test_c.c canonical_c11/include/dacb.h | $(BUILD)
 	$(CC) $(CFLAGS) $(CPPFLAGS) canonical_c11/src/dacb.c tests/test_c.c -o $@
 
-test: $(TESTBIN)
+test: $(TESTBIN) $(BIN)
 	$(TESTBIN)
 	python3 tests/test_python_twin.py
+	python3 tests/test_cli_contract.py
 
 report: $(BIN)
 	$(BIN) report
