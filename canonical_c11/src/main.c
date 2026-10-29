@@ -7,10 +7,14 @@
 #include <string.h>
 
 static int parse_u64(const char *text, uint64_t *out) {
+    if (*text == '\0') return -1;
+    for (const char *p = text; *p != '\0'; ++p) {
+        if (*p < '0' || *p > '9') return -1;
+    }
     char *end = NULL;
     errno = 0;
     const unsigned long long v = strtoull(text, &end, 10);
-    if (errno != 0 || end == text || *end != '\0') return -1;
+    if (errno != 0 || end == text || *end != '\0' || v > UINT64_MAX) return -1;
     *out = (uint64_t)v;
     return 0;
 }
