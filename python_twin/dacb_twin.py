@@ -283,16 +283,35 @@ def canonical_report() -> bytes:
     return ("\n".join(lines) + "\n").encode("ascii")
 
 
+def parse_u64(text: str) -> int:
+    if not text or any(ch < '0' or ch > '9' for ch in text):
+        raise ValueError('expected unsigned decimal integer')
+    value = int(text)
+    if value > (1 << 64) - 1:
+        raise ValueError('integer exceeds uint64 range')
+    return value
+
+
 def main(argv: list[str]) -> int:
     if argv == ["report"]:
         sys.stdout.buffer.write(canonical_report())
         return 0
     if len(argv) == 2 and argv[0] == "run":
-        s = run(SEED, int(argv[1]))
+        try:
+            steps = parse_u64(argv[1])
+        except ValueError:
+            print('invalid step count', file=sys.stderr)
+            return 2
+        s = run(SEED, steps)
         print(f"steps={s.steps} seed={s.seed} last={s.last} affine={s.affine_last} matrix={s.matrix_last} reverse={s.reverse_seed} sum_mod={s.sum_mod} weighted_mod={s.weighted_mod}")
         return 0
     if len(argv) == 3 and argv[0] == "exhaustive":
-        lo, hi = int(argv[1]), int(argv[2])
+        try:
+            lo, hi = parse_u64(argv[1]), parse_u64(argv[2])
+        except ValueError:
+            return 2
+        if not 2 <= lo <= hi <= 16:
+            return 2
         cases, digest, modsum = exhaustive(lo, hi)
         print(f"bits={lo}-{hi} cases={cases} fnv64={digest:016x} modsum={modsum}")
         return 0
