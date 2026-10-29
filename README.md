@@ -127,6 +127,11 @@ dacb lattice preserve
 dacb lattice plus
 ```
 
+Numeric CLI arguments use unsigned ASCII decimal digits only (no sign or
+whitespace). Both implementations reject malformed or out-of-range inputs
+before computation. Exhaustive bounds must satisfy `2 <= MIN_BITS <= MAX_BITS <= 16`.
+`make test` includes cross-language CLI rejection and valid-output parity checks.
+
 `lattice plus` intentionally evaluates the mutated tie-to-`+1` rule so the semantic regression can prove that it differs from the preserved rule.
 
 ## Verification axes
