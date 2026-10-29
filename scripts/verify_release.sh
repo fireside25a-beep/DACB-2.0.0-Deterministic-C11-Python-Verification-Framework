@@ -67,6 +67,7 @@ gcc -std=c11 -O0 -Wall -Wextra -Werror -pedantic -fanalyzer -I"$ROOT/canonical_c
   "$ROOT/canonical_c11/src/dacb.c" "$ROOT/canonical_c11/src/main.c" -o "$TMP/dacb-analyzer"
 
 echo "[12/14] invalid-input rejection"
+python3 "$ROOT/tests/test_cli_contract.py" "$TMP/dacb-gcc"
 if "$TMP/dacb-gcc" run nope >/dev/null 2>&1; then exit 1; fi
 if "$TMP/dacb-gcc" exhaustive 1 10 >/dev/null 2>&1; then exit 1; fi
 if "$TMP/dacb-gcc" lattice bad >/dev/null 2>&1; then exit 1; fi
